@@ -56,8 +56,8 @@ public class Tree<T extends Comparable<T>> {
 		if(founded != null)
 		{
 			int compareResult = founded.getData().compareTo(tree.getRootNode().getData());
-			int levelFoundedNode = levelNode(data, this.root);
-			int levelTree = levelTree(tree);
+			int levelFoundedNode = getLevelNode(data, this.root);
+			int levelTree = getLevelTree(tree);
 			int totalLevel  = levelFoundedNode + levelTree;
 
 				if(compareResult > 0)
@@ -94,6 +94,8 @@ public class Tree<T extends Comparable<T>> {
 		{
 			System.out.println("The element wasn't found");
 		}
+
+		print("", this.root, false);
 	}
 	
 	private Node<T> findNode(T data, Node<T> node)
@@ -120,12 +122,12 @@ public class Tree<T extends Comparable<T>> {
 		return null;
 	}
 	
-	private int levelNode(T data, Node<T> node)
+	private int getLevelNode(T data, Node<T> node)
 	{
-		return levelNodeRecursive(data, node);
+		return getLevelNodeRecursive(data, node);
 	}
 	
-	private int levelNodeRecursive(T data, Node<T> node)
+	private int getLevelNodeRecursive(T data, Node<T> node)
 	{
 		int compareResult = node.getData().compareTo(data);
 		
@@ -137,27 +139,27 @@ public class Tree<T extends Comparable<T>> {
 		if(compareResult > 0)
 		{
 			if(node.getLeftNode() != null){
-				return 1 + levelNodeRecursive(data, node.getLeftNode());
+				return 1 + getLevelNodeRecursive(data, node.getLeftNode());
 			} else {
-				return levelNodeRecursive(data, node.getLeftNode());
+				return getLevelNodeRecursive(data, node.getLeftNode());
 			}
 		} else 
 		{
 			if(node.getRightNode()!= null)
 			{
-				return 1 + levelNodeRecursive(data, node.getRightNode());
+				return 1 + getLevelNodeRecursive(data, node.getRightNode());
 			} else {
-				return levelNodeRecursive(data, node.getRightNode());
+				return getLevelNodeRecursive(data, node.getRightNode());
 			}
 		}
 	}
 	
-	public int levelTree(Tree<T> tree)
+	public int getLevelTree(Tree<T> tree)
 	{
-		return levelTreeRecursive(tree.getRootNode());
+		return getLevelTreeRecursive(tree.getRootNode());
 	}
 	
-	private int levelTreeRecursive(Node<T> node)
+	private int getLevelTreeRecursive(Node<T> node)
 	{		
 		if(node.getLeftNode() == null && node.getRightNode() == null)
 		{
@@ -165,14 +167,22 @@ public class Tree<T extends Comparable<T>> {
 		} 
 
 		if(node.getLeftNode() != null){
-			return 1 + levelTreeRecursive(node.getLeftNode());
+			return 1 + getLevelTreeRecursive(node.getLeftNode());
 		}
 		
 		if(node.getRightNode()!= null)
 		{
-			return 1 + levelTreeRecursive( node.getRightNode());
+			return 1 + getLevelTreeRecursive( node.getRightNode());
 		}
 	
 		return 0;
+	}
+	 
+	 public void print(String prefix, Node<T> node, boolean isLeft) {
+		 if (node != null) {
+			 print(prefix + " ", node.getRightNode(), false);
+			 System.out.println (prefix + ("|-- ") + node.getData());
+			 print(prefix + " ", node.getLeftNode(), true);
+		 }
 	}
 }
